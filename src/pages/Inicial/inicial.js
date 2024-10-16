@@ -32,8 +32,8 @@ const HomeScreen = () => {
       ><Text style={styles.buttonText}>Fazer Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Criar Conta</Text>
+      <TouchableOpacity style={styles.buttonTransparent} onPress={() => navigation.navigate('Cadastro')}>
+        <Text style={styles.buttonTextTransparent}>Criar Conta</Text>
       </TouchableOpacity>
     </View>
   );

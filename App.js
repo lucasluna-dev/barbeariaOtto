@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import HomeScreen from './src/pages/Inicial/inicial';
 import LoginScreen from './src/pages/Login/login';
+import CadastroScreen from './src/pages/Cadastro/cadastro';
 
 
 const Stack = createStackNavigator();
@@ -15,6 +16,7 @@ const App = () => {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Cadastro" component={CadastroScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

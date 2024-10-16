@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from "./loginStyle";
+import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
+
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <Image
@@ -37,7 +41,7 @@ const LoginScreen = () => {
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.bottomLink}>
+            <TouchableOpacity style={styles.bottomLink} onPress={() => navigation.navigate('Cadastro')}>
                 <Text style={styles.link}>
                     Não tem uma conta? <Text style={styles.boldUnderline}>Crie agora!</Text>
                 </Text>
