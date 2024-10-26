@@ -6,6 +6,7 @@ import 'react-native-gesture-handler';
 import HomeScreen from './src/pages/Inicial/inicial';
 import LoginScreen from './src/pages/Login/login';
 import CadastroScreen from './src/pages/Cadastro/cadastro';
+import { supabase } from './services/supabase';
 
 
 const Stack = createStackNavigator();
