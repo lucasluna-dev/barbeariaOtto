@@ -1,10 +1,13 @@
-// Cadastro.js
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from "./cadastroStyle";
+import { useNavigation } from '@react-navigation/native';
 
 const CadastroScreen = () => {
+
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <Image
@@ -55,7 +58,7 @@ const CadastroScreen = () => {
                 />
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.buttonText}>Finalizar Cadastro</Text>
             </TouchableOpacity>
         </View>

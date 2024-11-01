@@ -37,7 +37,7 @@ const LoginScreen = () => {
                 <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Servicos')}>
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
 
