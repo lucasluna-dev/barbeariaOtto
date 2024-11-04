@@ -115,7 +115,12 @@ const AgendamentosScreen = ({ navigation }) => {
                             style={styles.confirmButton}
                             onPress={() => {
                                 toggleModal();
-                                navigation.navigate('MeusAgendamentos');
+                                navigation.navigate('MeusAgendamentos', {
+                                    serviceName,
+                                    selectedDate: formatDate(selectedDate),
+                                    selectedTime,
+                                    serviceValue
+                                });
                             }}
                         >
                             <Text style={styles.buttonText}>Confirmar</Text>
