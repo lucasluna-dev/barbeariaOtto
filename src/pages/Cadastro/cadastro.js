@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Importação corrigida
@@ -46,6 +47,17 @@ const CadastroScreen = () => {
             navigation.navigate('Login'); // Navegar para a tela de Login
         }
     };
+=======
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import styles from "./cadastroStyle";
+import { useNavigation } from '@react-navigation/native';
+
+const CadastroScreen = () => {
+
+    const navigation = useNavigation();
+>>>>>>> origin/dev_ju
 
     return (
         <View style={styles.container}>
@@ -107,7 +119,11 @@ const CadastroScreen = () => {
                 />
             </View>
 
+<<<<<<< HEAD
             <TouchableOpacity style={styles.button} onPress={handleRegister}>
+=======
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+>>>>>>> origin/dev_ju
                 <Text style={styles.buttonText}>Finalizar Cadastro</Text>
             </TouchableOpacity>
         </View>

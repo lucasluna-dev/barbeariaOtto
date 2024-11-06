@@ -6,7 +6,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-        backgroundColor: 'e5e5e5',
+        backgroundColor: '#FFFFFF',
     },
     logo: {
         width: 100,
@@ -45,15 +45,6 @@ export default StyleSheet.create({
         alignItems: 'center',
         marginVertical: 10,
         marginTop: 60,
-    },
-    forgotPasswordContainer: {
-        width: '100%',
-        alignItems: 'flex-end',
-    },
-    forgotPasswordText: {
-        color: '#888888',
-        marginTop: 5,
-        textDecorationLine: 'underline'
     },
     buttonText: {
         color: '#fff',

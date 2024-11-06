@@ -7,6 +7,7 @@ import { supabase } from "../../../services/supabase"; // Importe sua configuraÃ
 
 const LoginScreen = () => {
     const navigation = useNavigation();
+<<<<<<< HEAD
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
 
@@ -30,6 +31,20 @@ const LoginScreen = () => {
         }
     };
     
+=======
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        if (email.toLowerCase() === "barbeirootto@gmail.com" && password === "barber123") {
+            navigation.navigate('Barbeiro');
+        } else if (email.toLowerCase() === "barbeirotto@gmail.com") {
+            Alert.alert("Erro", "Senha incorreta para o usuÃ¡rio Barbeiro.");
+        } else {
+            navigation.navigate('Servicos');
+        }
+    };
+>>>>>>> origin/dev_ju
 
     return (
         <View style={styles.container}>
@@ -46,6 +61,11 @@ const LoginScreen = () => {
                     style={styles.input}
                     value={email}
                     onChangeText={setEmail}
+<<<<<<< HEAD
+=======
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+>>>>>>> origin/dev_ju
                 />
             </View>
 
@@ -55,6 +75,7 @@ const LoginScreen = () => {
                     placeholder="Senha"
                     secureTextEntry
                     style={styles.input}
+<<<<<<< HEAD
                     value={senha}
                     onChangeText={setSenha}
                 />
@@ -64,6 +85,13 @@ const LoginScreen = () => {
                 <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
             </TouchableOpacity>
 
+=======
+                    value={password}
+                    onChangeText={setPassword}
+                />
+            </View>
+
+>>>>>>> origin/dev_ju
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
