@@ -8,6 +8,7 @@ import CadastroScreen from './src/pages/Cadastro/cadastro';
 import ServicosScreen from './src/pages/Servicos/servicos';
 import AgendamentosScreen from './src/pages/Agendamentos/agendamentos';
 import MeusAgendamentosScreen from './src/pages/MeusAgendamentos/meusAgendamentos';
+import BarbeiroScreen from './src/pages/Barbeiro/barbeiro';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const App = () => {
         <Stack.Screen name="Servicos" component={ServicosScreen} />
         <Stack.Screen name="Agendamentos" component={AgendamentosScreen} />
         <Stack.Screen name="MeusAgendamentos" component={MeusAgendamentosScreen} />
+        <Stack.Screen name="Barbeiro" component={BarbeiroScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

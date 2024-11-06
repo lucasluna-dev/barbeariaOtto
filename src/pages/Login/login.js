@@ -1,12 +1,23 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from "./loginStyle";
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        if (email.toLowerCase() === "barbeirootto@gmail.com" && password === "barber123") {
+            navigation.navigate('Barbeiro');
+        } else if (email.toLowerCase() === "barbeirotto@gmail.com") {
+            Alert.alert("Erro", "Senha incorreta para o usuário Barbeiro.");
+        } else {
+            navigation.navigate('Servicos');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -21,6 +32,10 @@ const LoginScreen = () => {
                 <TextInput
                     placeholder="E-mail"
                     style={styles.input}
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                 />
             </View>
 
@@ -30,14 +45,12 @@ const LoginScreen = () => {
                     placeholder="Senha"
                     secureTextEntry
                     style={styles.input}
+                    value={password}
+                    onChangeText={setPassword}
                 />
             </View>
 
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
-                <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Servicos')}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Entrar</Text>
             </TouchableOpacity>
 

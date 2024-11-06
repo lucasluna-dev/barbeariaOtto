@@ -46,15 +46,6 @@ export default StyleSheet.create({
         marginVertical: 10,
         marginTop: 60,
     },
-    forgotPasswordContainer: {
-        width: '100%',
-        alignItems: 'flex-end',
-    },
-    forgotPasswordText: {
-        color: '#888888',
-        marginTop: 5,
-        textDecorationLine: 'underline'
-    },
     buttonText: {
         color: '#fff',
         fontSize: 16,

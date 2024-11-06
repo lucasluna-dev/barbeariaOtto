@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const MeusAgendamentosScreen = () => {
     const route = useRoute();
+    const navigation = useNavigation();
     const { serviceName, selectedDate, selectedTime, serviceValue } = route.params;
 
     return (
@@ -18,7 +19,7 @@ const MeusAgendamentosScreen = () => {
                 </View>
                 <Text style={styles.value}>R${serviceValue}.00</Text>
 
-                <TouchableOpacity style={styles.cancelButton}>
+                <TouchableOpacity style={styles.cancelButton} onPress={()=> navigation.navigate("Servicos")}>
                     <Text style={styles.cancelButtonText}>Cancelar</Text>
                 </TouchableOpacity>
             </View>
