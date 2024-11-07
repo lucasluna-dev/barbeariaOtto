@@ -5,15 +5,10 @@ import 'react-native-gesture-handler';
 import HomeScreen from './src/pages/Inicial/inicial';
 import LoginScreen from './src/pages/Login/login';
 import CadastroScreen from './src/pages/Cadastro/cadastro';
-<<<<<<< HEAD:App.tsx
-import { supabase } from './services/supabase';
-
-=======
 import ServicosScreen from './src/pages/Servicos/servicos';
 import AgendamentosScreen from './src/pages/Agendamentos/agendamentos';
 import MeusAgendamentosScreen from './src/pages/MeusAgendamentos/meusAgendamentos';
 import BarbeiroScreen from './src/pages/Barbeiro/barbeiro';
->>>>>>> origin/dev_ju:App.js
 
 const Stack = createStackNavigator();
 
