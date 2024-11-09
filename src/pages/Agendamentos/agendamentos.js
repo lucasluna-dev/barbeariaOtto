@@ -34,7 +34,6 @@ const AgendamentosScreen = () => {
         return date.toLocaleDateString('pt-BR', options);
     };
 
-    // Função para confirmar e inserir o agendamento no Supabase
     const confirmarAgendamento = async () => {
         // Substitua pelo ID do usuário logado
         const userId = 1; // Exemplo estático; ajuste para pegar o ID real
@@ -58,6 +57,7 @@ const AgendamentosScreen = () => {
             toggleModal();
 
             navigation.navigate('MeusAgendamentos', {
+                id_fk_user: userId,
                 serviceName,
                 selectedDate: formatDate(selectedDate),
                 selectedTime,
