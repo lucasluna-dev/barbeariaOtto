@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { supabase } from "../../../services/supabase";  
 import styles from './barbeiroStyle';
 
-// Mock de agendamentos, isso deve vir do banco de dados, select da tela de agendamentos
-const initialAppointments = [
-    {
-        id: '1',
-        user: 'João Silva',
-        service: 'Corte de cabelo',
-        dateTime: '08/11/2024 09:00',
-        price: 50.00
-    },
-    {
-        id: '2',
-        user: 'Maria Oliveira',
-        service: 'Barba e cabelo',
-        dateTime: '08/11/2024 10:30',
-        price: 70.00
-    },
-    {
-        id: '3',
-        user: 'Carlos Santos',
-        service: 'Aparar barba',
-        dateTime: '08/11/2024 13:00',
-        price: 30.00
-    },
-    {
-        id: '4',
-        user: 'Ana Costa',
-        service: 'Coloração de cabelo',
-        dateTime: '08/11/2024 15:30',
-        price: 120.00
-    }
-];
-
 const BarbeiroScreen = () => {
-    const [appointments, setAppointments] = useState(initialAppointments);
+    const [appointments, setAppointments] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('tb_agendamentos1')
+                    .select(`
+                        id,
+                        tb_user1(nome_completo),
+                        tb_servicos1(nome),
+                        data,
+                        horario
+                    `)
+                    .eq('id_fk_user', 1)
+                    .order('criado_em', { ascending: false });
+
+                if (error) {
+                    console.error("Erro ao buscar agendamentos:", error);
+                } else {
+                    const formattedAppointments = data.map(appointment => ({
+                        id: appointment.id,
+                        user: appointment.tb_user1.nome_completo,
+                        service: appointment.tb_servicos1.nome,
+                        dateTime: `${formatDate(appointment.data)} ${appointment.horario}`, 
+                        createdAt: formatDate(appointment.criado_em), 
+                    }));
+                    setAppointments(formattedAppointments);
+                }
+            } catch (error) {
+                console.error("Erro ao obter agendamentos:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAppointments();
+    }, []);
+
+    const formatDate = (date) => {
+        const formattedDate = new Date(date);
+        const day = String(formattedDate.getDate()).padStart(2, '0');
+        const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); 
+        const year = formattedDate.getFullYear().toString().slice(-2); 
+        return `${day}/${month}/${year}`;
+    };
 
     const handleCancelAppointment = (id) => {
         Alert.alert(
@@ -48,20 +63,37 @@ const BarbeiroScreen = () => {
                 },
                 {
                     text: "Sim",
-                    onPress: () => {
-                        setAppointments(appointments.filter(appointment => appointment.id !== id));
+                    onPress: async () => {
+                        try {
+                            const { error } = await supabase
+                                .from('tb_agendamentos1')
+                                .delete()
+                                .eq('id', id);
+
+                            if (error) {
+                                console.error("Erro ao cancelar agendamento:", error);
+                            } else {
+                                setAppointments(appointments.filter(appointment => appointment.id !== id));
+                            }
+                        } catch (error) {
+                            console.error("Erro ao cancelar agendamento:", error);
+                        }
                     }
                 }
             ]
         );
     };
 
+    if (loading) {
+        return <Text>Carregando...</Text>;
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Agendamentos do Otto</Text>
             <FlatList
                 data={appointments}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.appointmentContainer}>
                         <Text style={styles.label}>Cliente:</Text>
@@ -72,9 +104,6 @@ const BarbeiroScreen = () => {
 
                         <Text style={styles.label}>Data/Hora:</Text>
                         <Text style={styles.value}>{item.dateTime}</Text>
-
-                        <Text style={styles.label}>Preço:</Text>
-                        <Text style={styles.value}>R${item.price.toFixed(2)}</Text>
 
                         <TouchableOpacity
                             style={styles.cancelButton}
