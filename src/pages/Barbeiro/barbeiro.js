@@ -14,12 +14,13 @@ const BarbeiroScreen = () => {
                     .from('tb_agendamentos1')
                     .select(`
                         id,
-                        tb_user1(nome_completo),
-                        tb_servicos1(nome),
+                        tb_user1 (nome_completo),
+                        tb_servicos1 (nome, valor),
                         data,
-                        horario
+                        horario,
+                        criado_em
                     `)
-                    .eq('id_fk_user', 1)
+                    .eq('id_fk_user', 1) 
                     .order('criado_em', { ascending: false });
 
                 if (error) {
@@ -27,10 +28,11 @@ const BarbeiroScreen = () => {
                 } else {
                     const formattedAppointments = data.map(appointment => ({
                         id: appointment.id,
-                        user: appointment.tb_user1.nome_completo,
-                        service: appointment.tb_servicos1.nome,
+                        user: appointment.tb_user1.nome_completo,  // Acesso correto ao nome do cliente
+                        service: appointment.tb_servicos1.nome,   // Acesso correto ao nome do serviço
+                        price: appointment.tb_servicos1.valor,    // Acesso correto ao preço do serviço
                         dateTime: `${formatDate(appointment.data)} ${appointment.horario}`, 
-                        createdAt: formatDate(appointment.criado_em), 
+                        createdAt: formatDate(appointment.criado_em),
                     }));
                     setAppointments(formattedAppointments);
                 }
@@ -101,6 +103,9 @@ const BarbeiroScreen = () => {
 
                         <Text style={styles.label}>Serviço:</Text>
                         <Text style={styles.value}>{item.service}</Text>
+
+                        <Text style={styles.label}>Preço:</Text>
+                        <Text style={styles.value}>R$ {item.price.toFixed(2)}</Text>  
 
                         <Text style={styles.label}>Data/Hora:</Text>
                         <Text style={styles.value}>{item.dateTime}</Text>

@@ -31,7 +31,7 @@ export default StyleSheet.create({
         marginTop: 10,
         paddingVertical: 8,
         paddingHorizontal: 15,
-        backgroundColor: '#ff4d4d',
+        backgroundColor: '#FF0000',
         borderRadius: 5,
         alignItems: 'center',
     },
