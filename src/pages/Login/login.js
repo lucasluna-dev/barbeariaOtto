@@ -16,7 +16,8 @@ const LoginScreen = () => {
             .select("*")
             .eq("email", email)
             .eq("senha", senha);
-    
+        
+        console.log(data);
         if (error) {
             console.error("Erro de autenticação:", error.message);
             Alert.alert("Erro", "Ocorreu um erro ao tentar autenticar!");
@@ -28,7 +29,6 @@ const LoginScreen = () => {
             Alert.alert("Sucesso", "Login realizado com sucesso!");
             //navigation.navigate(''); // Navega para a tela inicial
             navigation.navigate('Servicos');
-            
         }
     };
     
@@ -61,10 +61,6 @@ const LoginScreen = () => {
                     onChangeText={setSenha}
                 />
             </View>
-
-            <TouchableOpacity style={styles.forgotPasswordContainer}>
-                <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
-            </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Entrar</Text>
