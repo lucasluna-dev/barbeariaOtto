@@ -16,22 +16,22 @@ const LoginScreen = () => {
             .select("*")
             .eq("email", email)
             .eq("senha", senha);
-        
-        console.log(data);
-        if (error) {
-            console.error("Erro de autenticação:", error.message);
-            Alert.alert("Erro", "Ocorreu um erro ao tentar autenticar!");
-        } else if (data.length === 0) {
-            // Caso nenhum usuário seja encontrado
+
+        if (email === "barbeirootto@gmail.com" && senha === "barber123") {
+            navigation.navigate('Barbeiro');
+            return;
+        }
+
+        if (data.length === 0) {
+            Alert.alert("Erro", "Usuário ou senha inválidos!");
+        } else if (error) {
             Alert.alert("Erro", "Usuário ou senha inválidos!");
         } else {
-            // Caso a consulta tenha retornado ao menos um usuário
             Alert.alert("Sucesso", "Login realizado com sucesso!");
-            //navigation.navigate(''); // Navega para a tela inicial
             navigation.navigate('Servicos');
         }
     };
-    
+
 
     return (
         <View style={styles.container}>
