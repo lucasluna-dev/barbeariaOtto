@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Alert } from 'react-nat
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from "./loginStyle";
 import { useNavigation } from '@react-navigation/native';
-import { supabase } from "../../../services/supabase"; // Importe sua configuração do Supabase
+import { supabase } from "../../../services/supabase";
 
 const LoginScreen = () => {
     const navigation = useNavigation();
@@ -22,16 +22,16 @@ const LoginScreen = () => {
             return;
         }
 
-        if (data.length === 0) {
-            Alert.alert("Erro", "Usuário ou senha inválidos!");
-        } else if (error) {
+        if (error || data.length === 0) {
             Alert.alert("Erro", "Usuário ou senha inválidos!");
         } else {
+            const userId = data[0].id;  // Obtém o ID do usuário autenticado
             Alert.alert("Sucesso", "Login realizado com sucesso!");
-            navigation.navigate('Servicos');
+
+            // Navega para a próxima tela passando o ID do usuário como parâmetro
+            navigation.navigate('Servicos', { userId });
         }
     };
-
 
     return (
         <View style={styles.container}>

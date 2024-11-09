@@ -14,7 +14,7 @@ const timeslots = [
 const AgendamentosScreen = () => {
     const route = useRoute();
     const navigation = useNavigation();
-    const { serviceId, serviceName, serviceValue } = route.params;
+    const { userId, serviceId, serviceName, serviceValue } = route.params;
 
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState(null);
@@ -30,13 +30,10 @@ const AgendamentosScreen = () => {
 
     const formatDate = (dateString) => {
         const date = new Date(dateString + 'T00:00:00');
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        return date.toLocaleDateString('pt-BR', options);
+        return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
     };
 
     const confirmarAgendamento = async () => {
-        // Substitua pelo ID do usuário logado
-        const userId = 1; // Exemplo estático; ajuste para pegar o ID real
 
         const { data, error } = await supabase
             .from('tb_agendamentos1')

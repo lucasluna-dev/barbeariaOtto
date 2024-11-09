@@ -2,9 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native';
 import { supabase } from "../../../services/supabase";  // Importando a instância do Supabase
 import styles from './servicosStyle';
+import { useRoute } from '@react-navigation/native';
 
 const ServicesScreen = ({ navigation }) => {
+    const route = useRoute();
+    const { userId } = route.params;
     const [services, setServices] = useState([]);  // Estado para armazenar os serviços
+
+    console.log("userId(Servicos): ", userId);
 
     // Função para buscar os serviços do Supabase
     const fetchServices = async () => {
@@ -31,6 +36,7 @@ const ServicesScreen = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Agendamentos', {
+                    userId,
                     serviceId: item.id,
                     serviceName: item.nome,
                     serviceValue: item.valor
