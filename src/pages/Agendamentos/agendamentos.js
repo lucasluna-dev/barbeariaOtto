@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Modal, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { supabase } from "../../../services/supabase";  // Importando a instância do Supabase
 import styles from './agendamentosStyle';
 
-//Mock dos horários disponíveis, isso deve vir do banco de dados
 const timeslots = [
     '09:00', '09:15', '09:30', '12:00',
     '13:00', '14:00', '15:00', '15:40',
     '16:15', '16:45', '17:00', '18:30', '18:40'
 ];
 
-const AgendamentosScreen = ({ navigation }) => {
+const AgendamentosScreen = () => {
     const route = useRoute();
+    const navigation = useNavigation();
     const { serviceId, serviceName, serviceValue } = route.params;
-
-    console.log("Service ID: ", serviceId);
-    console.log("Service Name: ", serviceName);
-    console.log("Service Value:", serviceValue);
 
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
-
 
     const onDateSelect = (day) => {
         setSelectedDate(day.dateString);
@@ -36,6 +32,38 @@ const AgendamentosScreen = ({ navigation }) => {
         const date = new Date(dateString + 'T00:00:00');
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         return date.toLocaleDateString('pt-BR', options);
+    };
+
+    // Função para confirmar e inserir o agendamento no Supabase
+    const confirmarAgendamento = async () => {
+        // Substitua pelo ID do usuário logado
+        const userId = 1; // Exemplo estático; ajuste para pegar o ID real
+
+        const { data, error } = await supabase
+            .from('tb_agendamentos1')
+            .insert([
+                {
+                    id_fk_user: userId,
+                    id_fk_servico: serviceId,
+                    data: selectedDate,
+                    horario: selectedTime
+                }
+            ]);
+
+        if (error) {
+            Alert.alert("Erro", "Não foi possível confirmar o agendamento. Tente novamente.");
+            console.error("Erro ao inserir agendamento:", error);
+        } else {
+            Alert.alert("Sucesso", "Agendamento confirmado!");
+            toggleModal();
+
+            navigation.navigate('MeusAgendamentos', {
+                serviceName,
+                selectedDate: formatDate(selectedDate),
+                selectedTime,
+                serviceValue
+            });
+        }
     };
 
     return (
@@ -113,30 +141,20 @@ const AgendamentosScreen = ({ navigation }) => {
 
                         <TouchableOpacity
                             style={styles.confirmButton}
-                            onPress={() => {
-                                toggleModal();
-                                navigation.navigate('MeusAgendamentos', {
-                                    serviceName,
-                                    selectedDate: formatDate(selectedDate),
-                                    selectedTime,
-                                    serviceValue
-                                });
-                            }}
+                            onPress={confirmarAgendamento}  // Chama a função de confirmação
                         >
                             <Text style={styles.buttonText}>Confirmar</Text>
                         </TouchableOpacity>
-
 
                         <TouchableOpacity
                             style={styles.cancelButton}
                             onPress={toggleModal}
                         >
-                            <Text style={styles.buttonText} onPress={() => navigation.navigate('Servicos')} >Cancelar</Text>
+                            <Text style={styles.buttonText}>Cancelar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
-
         </View>
     );
 };

@@ -12,7 +12,7 @@ const LoginScreen = () => {
 
     const handleLogin = async () => {
         const { data, error } = await supabase
-            .from("tb_user")
+            .from("tb_user1")
             .select("*")
             .eq("email", email)
             .eq("senha", senha);

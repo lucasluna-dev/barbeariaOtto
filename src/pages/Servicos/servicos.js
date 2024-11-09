@@ -9,7 +9,7 @@ const ServicesScreen = ({ navigation }) => {
     // Função para buscar os serviços do Supabase
     const fetchServices = async () => {
         const { data, error } = await supabase
-            .from('tb_servicos')  // Nome da tabela
+            .from('tb_servicos1')  // Nome da tabela
             .select('*');  // Selecionando todas as colunas
 
         if (error) {
@@ -27,13 +27,13 @@ const ServicesScreen = ({ navigation }) => {
     const renderServiceItem = ({ item, index }) => (
         <View style={styles.serviceItem}>
             <Image source={require('../../../assets/logo.png')} style={styles.serviceImage} />
-            <Text style={styles.serviceName}>{item.Nome}</Text>
+            <Text style={styles.serviceName}>{item.nome}</Text>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('Agendamentos', {
                     serviceId: item.id,
-                    serviceName: item.Nome,
-                    serviceValue: item.Valor
+                    serviceName: item.nome,
+                    serviceValue: item.valor
                 })}
             >
                 <Text style={styles.buttonText}>Agendar</Text>

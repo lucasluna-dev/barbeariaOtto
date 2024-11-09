@@ -23,7 +23,7 @@ const CadastroScreen = () => {
             return;
         }
 
-        const { data, error } = await supabase.from("tb_user").insert({
+        const { data, error } = await supabase.from("tb_user1").insert({
             nome_completo,
             email,
             telefone,
