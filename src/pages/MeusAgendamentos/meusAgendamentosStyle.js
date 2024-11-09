@@ -61,4 +61,52 @@ export default StyleSheet.create({
         color: '#f00',
         fontSize: 14,
     },
+    modalBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    },
+    modalContainer: {
+        width: 300,
+        padding: 25,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 16,
+        marginBottom: 20,
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    buttonCancelAgendamento: {
+        backgroundColor: '#FF0000',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonCancelText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    buttonConfirmarAgendamento: {
+        backgroundColor: '#28a745',  
+        paddingVertical: 10,          
+        paddingHorizontal: 20,       
+        borderRadius: 5,             
+        alignItems: 'center',        
+        justifyContent: 'center',    
+    },
+    buttonConfirmarText: {
+        color: '#fff',               
+        fontSize: 16,                 
+        fontWeight: 'bold',         
+    }
 });

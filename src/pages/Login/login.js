@@ -25,7 +25,7 @@ const LoginScreen = () => {
         if (error || data.length === 0) {
             Alert.alert("Erro", "Usuário ou senha inválidos!");
         } else {
-            const userId = data[0].id;  // Obtém o ID do usuário autenticado
+            const userId = data[0].id;  // Pega o ID do usuário autenticado
             Alert.alert("Sucesso", "Login realizado com sucesso!");
 
             // Navega para a próxima tela passando o ID do usuário como parâmetro

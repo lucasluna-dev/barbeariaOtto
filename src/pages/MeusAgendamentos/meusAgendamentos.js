@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, ScrollView, Modal, Button } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { supabase } from "../../../services/supabase";
 import styles from './meusAgendamentosStyle';
@@ -9,6 +9,8 @@ const MeusAgendamentosScreen = () => {
     const route = useRoute();
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showModal, setShowModal] = useState(false); 
+    const [appointmentToCancel, setAppointmentToCancel] = useState(null); 
     const userId = route.params?.id_fk_user;
 
     const formatDate = (dateString) => {
@@ -50,6 +52,39 @@ const MeusAgendamentosScreen = () => {
         fetchAppointments();
     }, [userId]);
 
+    // Função para abrir o modal de confirmação
+    const handleCancel = (appointmentId) => {
+        setAppointmentToCancel(appointmentId);
+        setShowModal(true); // Exibe o modal
+    };
+
+    // Função para excluir o agendamento
+    const confirmCancel = async () => {
+        try {
+            const { error } = await supabase
+                .from('tb_agendamentos1')
+                .delete()
+                .eq('id', appointmentToCancel);
+
+            if (error) {
+                console.error("Erro ao cancelar agendamento:", error);
+            } else {
+                // Remover o agendamento da lista local
+                setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment.id !== appointmentToCancel));
+            }
+        } catch (error) {
+            console.error("Erro ao excluir agendamento:", error);
+        } finally {
+            setShowModal(false); 
+            setAppointmentToCancel(null); 
+        }
+    };
+
+    const cancelCancel = () => {
+        setShowModal(false);
+        setAppointmentToCancel(null);
+    };
+
     return (
         <View style={styles.container}>
             <Image source={require('../../../assets/logo.png')} style={styles.logo} />
@@ -70,7 +105,7 @@ const MeusAgendamentosScreen = () => {
                                 <Text style={styles.value}>R${appointment.tb_servicos1.valor}.00</Text>
                                 <TouchableOpacity
                                     style={styles.cancelButton}
-                                    onPress={() => navigation.navigate("Servicos")}
+                                    onPress={() => handleCancel(appointment.id)}  
                                 >
                                     <Text style={styles.cancelButtonText}>Cancelar</Text>
                                 </TouchableOpacity>
@@ -81,6 +116,27 @@ const MeusAgendamentosScreen = () => {
                     )}
                 </ScrollView>
             )}
+
+            <Modal
+                transparent={true}
+                visible={showModal}
+                animationType="fade"
+                onRequestClose={cancelCancel} 
+            >
+                <View style={styles.modalBackground}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalText}>Tem certeza que deseja CANCELAR este agendamento?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity style={styles.buttonCancelAgendamento} onPress={cancelCancel}>
+                                <Text style={styles.buttonCancelText}>Cancelar</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.buttonConfirmarAgendamento} onPress={confirmCancel}>
+                                <Text style={styles.buttonConfirmarText}>Confirmar</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
