@@ -43,34 +43,58 @@ const AgendamentosScreen = () => {
     };
 
     const confirmarAgendamento = async () => {
-
-        const { data, error } = await supabase
-            .from('tb_agendamentos1')
-            .insert([
-                {
+        try {
+            // Verifica se o horário já está ocupado para a data e horário selecionados
+            const { data: agendamentoExistente, error: fetchError } = await supabase
+                .from('tb_agendamentos1')
+                .select('*')
+                .eq('data', selectedDate)
+                .eq('horario', selectedTime)
+                .maybeSingle(); 
+    
+            if (fetchError) {
+                console.error("Erro ao verificar disponibilidade do horário:", fetchError);
+                Alert.alert("Erro", "Erro ao verificar disponibilidade do horário. Tente novamente.");
+                return;
+            }
+    
+            if (agendamentoExistente) {
+                Alert.alert("Horário Indisponível", "Este horário já está reservado. Escolha outro horário.");
+                return;
+            }
+            
+            const { data, error } = await supabase
+                .from('tb_agendamentos1')
+                .insert([
+                    {
+                        id_fk_user: userId,
+                        id_fk_servico: serviceId,
+                        data: selectedDate,
+                        horario: selectedTime
+                    }
+                ]);
+    
+            if (error) {
+                Alert.alert("Erro", "Não foi possível confirmar o agendamento. Tente novamente.");
+                console.error("Erro ao inserir agendamento:", error);
+            } else {
+                Alert.alert("Sucesso", "Agendamento confirmado!");
+                toggleModal();
+    
+                navigation.navigate('MeusAgendamentos', {
                     id_fk_user: userId,
-                    id_fk_servico: serviceId,
-                    data: selectedDate,
-                    horario: selectedTime
-                }
-            ]);
-
-        if (error) {
-            Alert.alert("Erro", "Não foi possível confirmar o agendamento. Tente novamente.");
-            console.error("Erro ao inserir agendamento:", error);
-        } else {
-            Alert.alert("Sucesso", "Agendamento confirmado!");
-            toggleModal();
-
-            navigation.navigate('MeusAgendamentos', {
-                id_fk_user: userId,
-                serviceName,
-                selectedDate: formatDate(selectedDate),
-                selectedTime,
-                serviceValue
-            });
+                    serviceName,
+                    selectedDate: formatDate(selectedDate),
+                    selectedTime,
+                    serviceValue
+                });
+            }
+        } catch (error) {
+            console.error("Erro no processo de agendamento:", error);
+            Alert.alert("Erro", "Ocorreu um erro inesperado. Tente novamente.");
         }
     };
+    
 
     return (
         <View style={styles.container}>
